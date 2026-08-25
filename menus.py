@@ -73,4 +73,3 @@ def choose_multiple(
         print(f"Added {label_function(choice)}.")
 
     return selected
-

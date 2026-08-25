@@ -37,6 +37,8 @@ class Battle:
 
     def attack(self, weapon):
         """Attempt one weapon attack and return (turn_used, message)."""
+        if self._battle_is_over():
+            return False, "The battle is already over."
         if weapon not in self.character.inventory.weapons():
             return False, "That weapon is not in your inventory."
         if not weapon.is_usable:
@@ -68,6 +70,8 @@ class Battle:
 
     def reload(self, firearm):
         """Attempt to reload and return (turn_used, message)."""
+        if self._battle_is_over():
+            return False, "The battle is already over."
         if firearm not in self.character.inventory.firearms():
             return False, "That firearm is not in your inventory."
         if firearm.bullets == firearm.capacity:
@@ -80,6 +84,8 @@ class Battle:
 
     def use_recovery_item(self, item):
         """Attempt healing and return (turn_used, message)."""
+        if self._battle_is_over():
+            return False, "The battle is already over."
         if item not in self.character.inventory.recovery_items():
             return False, "That recovery item is not in your inventory."
         if not isinstance(item, RecoveryItem):
@@ -94,6 +100,8 @@ class Battle:
 
     def try_escape(self):
         """Attempt escape and return (escaped, message). The attempt uses a turn."""
+        if self._battle_is_over():
+            return False, "The battle is already over."
         if self.random_source.random() < self.character.escape_chance:
             self.escaped = True
             return True, "You escape from the encounter."
@@ -215,6 +223,13 @@ class Battle:
         else:
             print(self.enemy_turn())
         self._first_player_action = False
+
+    def _battle_is_over(self):
+        return (
+            not self.enemy.is_alive
+            or not self.character.is_alive
+            or self.escaped
+        )
 
     def _award_victory(self):
         if self._reward_given:

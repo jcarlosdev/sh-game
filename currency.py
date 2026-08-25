@@ -43,4 +43,3 @@ class Wallet:
             raise ValueError("Coin amounts must be whole numbers.")
         if amount < 0:
             raise ValueError("Coin amounts cannot be negative.")
-

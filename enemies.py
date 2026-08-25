@@ -67,4 +67,3 @@ class Brute(Enemy):
 
 def default_enemies():
     return [Zombie(), Runner(), Brute()]
-
