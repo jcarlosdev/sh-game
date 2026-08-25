@@ -10,7 +10,7 @@ import random
 from characters import Character, default_origins, default_roles, default_traits
 from combat import Battle
 from currency import Wallet
-from enemies import default_enemies
+from enemies import default_enemies, Brute
 from items import default_item_factories
 from menus import choose_multiple, choose_option
 from shop import Shop
@@ -100,18 +100,25 @@ def main():
     print_inventory(character)
 
     shop = Shop()
-    shop.run(character)
 
-    enemy = random.choice(default_enemies())
-    battle = Battle(character, enemy)
-    result = battle.run()
+    while True:
+        print()    
+        shop.run(character)
+        enemy = random.choice(default_enemies())
+        battle = Battle(character, enemy)
+        result = battle.run()
 
-    print()
-    print(f"Battle result: {result.title()}")
-    print(f"Final health: {character.health}/{character.maximum_health}")
-    print(f"Final coins: {character.wallet.balance}")
-    print_inventory(character)
+        print()
+        print(f"Battle result: {result.title()}")
+        print(f"Final health: {character.health}/{character.maximum_health}")
+        print(f"Final coins: {character.wallet.balance}")
+        print_inventory(character)
 
-
+        opcion_leave = input("Do you want to leave the game? (y/n): ")
+        if opcion_leave == "y":
+            break
+        else:
+            continue
+        
 if __name__ == "__main__":
     main()
